@@ -38,6 +38,19 @@ public class ChlorophyllConfig extends StaticConfig {
         public static String VERSION = "1.0";
     }
 
+    @Priority(1)
+    public static class TOGGLES {
+
+        public static class PUFFERFISH {
+
+            public static boolean PROJECTILE_CHUNK_LOADING_OPTIMIZATION = false;
+
+            public static boolean BLOCK_GOAL_CHUNK_LOADING_OPTIMIZATION = false;
+
+        }
+
+    }
+
     @Override
     public void afterLoad() {
         if (initialized) init();
