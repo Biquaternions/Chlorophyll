@@ -8,6 +8,20 @@ Chlorophyll is a [Paper](https://github.com/PaperMC/Paper)/[Pufferfish](https://
 
 </div>
 
+> [!WARNING]
+> This project restores vanilla mechanics \
+> While this means technical builds will work again, it also means:
+> 
+> 1. Performance degradation compared to Paper
+> 2. Exploits, even server crashing ones, will also be available
+> 
+> Therefore, this project is not meant for a production-ready public server \
+> Its usage should be limited to small and closed communities. \
+> 
+> There will be NO SUPPORT for crashing exploits. \
+> You can still ask for vanilla parity features.
+> 
+
 ## License
 All patches are licensed under the MIT license.
 
