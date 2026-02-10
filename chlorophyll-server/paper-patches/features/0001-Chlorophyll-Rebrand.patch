@@ -5,7 +5,7 @@ Subject: [PATCH] Chlorophyll Rebrand
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..6a57f2b4335d2a12b609dce8d99afcfe84b47803 100644
+index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..283e206536e3ada94a1b90a42af5e01d83e8c8e3 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -31,30 +31,8 @@ index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..6a57f2b4335d2a12b609dce8d99afcfe
  
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
-diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index 3643f7eac770782d3dc4e9fbc776c89de3dd14fa..f2788c634e180caaae9cd0604d363ae2a7d6ef70 100644
---- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-+++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-@@ -35,7 +35,7 @@ public class PaperVersionFetcher implements VersionFetcher {
-     private static final Logger LOGGER = LogUtils.getClassLogger();
-     private static final int DISTANCE_ERROR = -1;
-     private static final int DISTANCE_UNKNOWN = -2;
--    private static final String DOWNLOAD_PAGE = "https://github.com/SerlithNetwork/Puffernot"; // Pufferfish - Rebrand
-+    private static final String DOWNLOAD_PAGE = "https://github.com/Biquaternions/Chlorophyll"; // Pufferfish - Rebrand // Chlorophyll - Rebrand
- 
-     @Override
-     public long getCacheTime() {
-@@ -49,7 +49,7 @@ public class PaperVersionFetcher implements VersionFetcher {
-         if (build.buildNumber().isEmpty() && build.gitCommit().isEmpty()) {
-             updateMessage = text("You are running a development version without access to version information", color(0xFF5300));
-         } else {
--            updateMessage = getUpdateStatusMessage("SerlithNetwork/Puffernot", build); // Pufferfish - Rebrand
-+            updateMessage = getUpdateStatusMessage("Biquaternions/Chlorophyll", build); // Pufferfish - Rebrand // Chlorophyll - Rebrand
-         }
-         final @Nullable Component history = this.getHistory();
- 
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..447dd63f7c832f1f09e081164645247cc1d8884c 100644
+index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..40eadad25b490f99086793a6e67dc784c689d725 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -20,7 +20,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -67,7 +45,7 @@ index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..447dd63f7c832f1f09e081164645247c
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
-index c1639f79b5a5e53d3a276458e4aa8f44e6841464..504a7e62ec4c198c004bafd13561331e9922554d 100644
+index c1639f79b5a5e53d3a276458e4aa8f44e6841464..6258514521dcd3e4edad9a877cff2ff1fde3d5d2 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
 @@ -32,6 +32,7 @@ public record ServerBuildInfoImpl(
@@ -91,10 +69,10 @@ index c1639f79b5a5e53d3a276458e4aa8f44e6841464..504a7e62ec4c198c004bafd13561331e
              SharedConstants.getCurrentVersion().name(),
              getManifestAttribute(manifest, ATTRIBUTE_BUILD_NUMBER)
 diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-index 982455a5eecdb6d80762cc17c2461b467ba5072e..596afa1ace155c119130c257389232205b73704d 100644
+index 8aa4e2286704e43503abbdae0d88ccfd5e0bf7e4..5670d4e9cc29b217f77c865b6b4ea7140bda3d0c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
 +++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
-@@ -493,7 +493,7 @@ public class CraftScheduler implements BukkitScheduler {
+@@ -494,7 +494,7 @@ public class CraftScheduler implements BukkitScheduler {
                  this.parsePending();
              } else {
                  // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(this.currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper
@@ -104,7 +82,7 @@ index 982455a5eecdb6d80762cc17c2461b467ba5072e..596afa1ace155c119130c25738923220
                  // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
              }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index b1063ec2eb0efceca88b64979e4f9b8e22439112..c7af727ab7a0446b22481477d6d1ebfe98183651 100644
+index b1063ec2eb0efceca88b64979e4f9b8e22439112..479a63de51dff31c33f4f4d0c5d75b5cf7cc9214 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -25,7 +25,7 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
