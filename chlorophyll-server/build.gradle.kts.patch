@@ -1,0 +1,78 @@
+--- a/pufferfish-server/build.gradle.kts
++++ b/pufferfish-server/build.gradle.kts
+@@ -31,9 +_,26 @@
+             outputDir = rootDirectory.dir("paper-server")
+         }
+     }
+-    activeFork = pufferfish
+     // Pufferfish end - Rebrand
+ 
++    // Chlorophyll start - Rebrand
++    val chlorophyll = forks.register("chlorophyll") {
++        forks = pufferfish
++        upstream.patchRepo("paperServer") {
++            upstreamRepo = pufferfish.patchedRepo("paperServer")
++            patchesDir = rootDirectory.dir("chlorophyll-server/paper-patches")
++            outputDir = rootDirectory.dir("paper-server")
++        }
++        upstream.patchDir("pufferfishServer") {
++            upstreamPath = "pufferfish-server"
++            excludes = setOf("src/minecraft", "paper-patches", "minecraft-patches", "build.gradle.kts", "build.gradle.kts.patch")
++            patchesDir = rootDirectory.dir("chlorophyll-server/pufferfish-patches")
++            outputDir = rootDirectory.dir("pufferfish-server")
++        }
++    }
++    activeFork = chlorophyll
++    // Chlorophyll end - Rebrand
++
+     spigot {
+         enabled = false
+         buildDataRef = "42d18d4c4653ffc549778dbe223f6994a031d69e"
+@@ -121,10 +_,18 @@
+     main {
+         java { srcDir("../paper-server/src/main/java") }
+         resources { srcDir("../paper-server/src/main/resources") }
++        // Chlorophyll start - Rebrand
++        java { srcDir("../pufferfish-server/src/main/java") }
++        resources { srcDir("../pufferfish-server/src/main/resources") }
++        // Chlorophyll end - Rebrand
+     }
+     test {
+         java { srcDir("../paper-server/src/test/java") }
+         resources { srcDir("../paper-server/src/test/resources") }
++        // Chlorophyll start - Rebrand
++        java { srcDir("../pufferfish-server/src/test/java") }
++        resources { srcDir("../pufferfish-server/src/test/resources") }
++        // Chlorophyll end - Rebrand
+     }
+ }
+ val log4jPlugins = sourceSets.create("log4jPlugins") {
+@@ -153,7 +_,7 @@
+ }
+ 
+ dependencies {
+-    implementation(project(":pufferfish-api")) // Pufferfish
++    implementation(project(":chlorophyll-api")) // Pufferfish // Chlorophyll
+     implementation("ca.spottedleaf:concurrentutil:0.0.7")
+     implementation("org.jline:jline-terminal-ffm:3.27.1") // use ffm on java 22+
+     implementation("org.jline:jline-terminal-jni:3.27.1") // fall back to jni on java 21
+@@ -227,14 +_,14 @@
+         val gitBranch = git.exec(providers, "rev-parse", "--abbrev-ref", "HEAD").get().trim()
+         attributes(
+             "Main-Class" to "org.bukkit.craftbukkit.Main",
+-            "Implementation-Title" to "Puffernot", // Pufferfish
++            "Implementation-Title" to "Chlorophyll", // Pufferfish // Chlorophyll
+             "Implementation-Version" to implementationVersion,
+             "Implementation-Vendor" to date,
+-            "Specification-Title" to "Puffernot", // Pufferfish
++            "Specification-Title" to "Chlorophyll", // Pufferfish // Chlorophyll
+             "Specification-Version" to project.version,
+-            "Specification-Vendor" to "Pufferfish Host & Serlith Network", // Pufferfish
+-            "Brand-Id" to "pufferfish:pufferfish", // Pufferfish
+-            "Brand-Name" to "Pufferfish", // Pufferfish
++            "Specification-Vendor" to "Biquaternions", // Pufferfish // Chlorophyll
++            "Brand-Id" to "biquaternions:chlorophyll", // Pufferfish // Chlorophyll
++            "Brand-Name" to "Chlorophyll", // Pufferfish // Chlorophyll
+             "Build-Number" to (build ?: ""),
+             "Build-Time" to buildTime.toString(),
+             "Git-Branch" to gitBranch,

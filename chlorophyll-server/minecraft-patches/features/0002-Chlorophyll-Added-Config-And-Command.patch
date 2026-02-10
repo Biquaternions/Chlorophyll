@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Sat, 13 Dec 2025 18:00:05 -0500
+Subject: [PATCH] Chlorophyll Added Config And Command
+
+
+diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
+index 3d23421acb441eb40ca730692e5d955027fb4dcc..5654151a6768109a1d82438d11b94f44a3236dd0 100644
+--- a/net/minecraft/server/Main.java
++++ b/net/minecraft/server/Main.java
+@@ -105,6 +105,7 @@ public class Main {
+                 JvmProfiler.INSTANCE.start(Environment.SERVER);
+             }
+ 
++            new me.biquaternions.chlorophyll.ChlorophyllConfig().load(); // Chlorophyll - Config and command
+             io.papermc.paper.plugin.PluginInitializerManager.load(optionSet); // Paper
+             Bootstrap.bootStrap();
+             Bootstrap.validate();
+diff --git a/net/minecraft/server/ReloadableServerResources.java b/net/minecraft/server/ReloadableServerResources.java
+index fcc1c2ca594f543a91e59c680c1892cdddacca36..c177c116738c83060385749806e8a4ef8816a94d 100644
+--- a/net/minecraft/server/ReloadableServerResources.java
++++ b/net/minecraft/server/ReloadableServerResources.java
+@@ -44,6 +44,7 @@ public class ReloadableServerResources {
+         io.papermc.paper.command.PaperCommands.registerCommands(); // Paper
+         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish - Config and command
+         gg.pufferfish.pufferfish.flare.FlareCommand.init(); // Pufferfish - Config and command
++        me.biquaternions.chlorophyll.ChlorophyllCommand.init(); // Chlorophyll - Config and command
+         this.advancements = new ServerAdvancementManager(registries);
+         this.functionLibrary = new ServerFunctionLibrary(permissions, this.commands.getDispatcher());
+     }
+diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
+index d3dc03775c08b252fb88a20c94fad91eacf9a032..3724eb6abb46b83d40beb2f3f593a65a92605372 100644
+--- a/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -275,6 +275,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
+         new gg.pufferfish.pufferfish.PufferfishConfig().load(); // Pufferfish - Config and command
++        me.biquaternions.chlorophyll.ChlorophyllConfig.init(); // Chlorophyll start - Config and command
+ 
+         // this.worldData.setGameType(properties.gameMode.get()); // CraftBukkit - moved to world loading
+         LOGGER.info("Default game type: {}", properties.gameMode.get());

@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Sat, 13 Dec 2025 18:00:05 -0500
+Subject: [PATCH] Chlorophyll Rebrand
+
+
+diff --git a/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java b/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
+index d9e03f2d5c26e3759311925a5d2e6d3a5d823752..303266fcfc275f1aa68462b872e906fc07a7aadc 100644
+--- a/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
++++ b/src/main/java/gg/pufferfish/pufferfish/compat/ServerConfigurations.java
+@@ -24,7 +24,8 @@ public class ServerConfigurations {
+         "spigot.yml",
+         "config/paper-global.yml",
+         "config/paper-world-defaults.yml",
+-        "pufferfish.yml"
++        "pufferfish.yml",
++        "chlorophyll.yml"
+     };
+ 
+     private static final String[] hiddenConfigEntries = new String[]{

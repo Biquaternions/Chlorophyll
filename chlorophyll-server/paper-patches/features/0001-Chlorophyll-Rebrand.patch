@@ -1,0 +1,160 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Sat, 13 Dec 2025 18:00:05 -0500
+Subject: [PATCH] Chlorophyll Rebrand
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index 96997fcdeb98fd74fedbb0a0f103e34cde991f50..6a57f2b4335d2a12b609dce8d99afcfe84b47803 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("Pufferfish", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish - Rebrand
++                Metrics metrics = new Metrics("Chlorophyll", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
+@@ -607,11 +607,11 @@ public class Metrics {
+                 final String implVersion = org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion();
+                 if (implVersion != null) {
+                     final String buildOrHash = implVersion.substring(implVersion.lastIndexOf('-') + 1);
+-                    paperVersion = "git-Pufferfish-%s-%s".formatted(Bukkit.getServer().getMinecraftVersion(), buildOrHash); // Pufferfish - Rebrand
++                    paperVersion = "git-Chlorophyll-%s-%s".formatted(Bukkit.getServer().getMinecraftVersion(), buildOrHash); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                 } else {
+                     paperVersion = "unknown";
+                 }
+-                metrics.addCustomChart(new Metrics.SimplePie("pufferfish_version", () -> paperVersion)); // Pufferfish - Rebrand
++                metrics.addCustomChart(new Metrics.SimplePie("chlorophyll_version", () -> paperVersion)); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+                     Map<String, Map<String, Integer>> map = new HashMap<>();
+diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+index 3643f7eac770782d3dc4e9fbc776c89de3dd14fa..f2788c634e180caaae9cd0604d363ae2a7d6ef70 100644
+--- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
++++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
+@@ -35,7 +35,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+     private static final Logger LOGGER = LogUtils.getClassLogger();
+     private static final int DISTANCE_ERROR = -1;
+     private static final int DISTANCE_UNKNOWN = -2;
+-    private static final String DOWNLOAD_PAGE = "https://github.com/SerlithNetwork/Puffernot"; // Pufferfish - Rebrand
++    private static final String DOWNLOAD_PAGE = "https://github.com/Biquaternions/Chlorophyll"; // Pufferfish - Rebrand // Chlorophyll - Rebrand
+ 
+     @Override
+     public long getCacheTime() {
+@@ -49,7 +49,7 @@ public class PaperVersionFetcher implements VersionFetcher {
+         if (build.buildNumber().isEmpty() && build.gitCommit().isEmpty()) {
+             updateMessage = text("You are running a development version without access to version information", color(0xFF5300));
+         } else {
+-            updateMessage = getUpdateStatusMessage("SerlithNetwork/Puffernot", build); // Pufferfish - Rebrand
++            updateMessage = getUpdateStatusMessage("Biquaternions/Chlorophyll", build); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+         }
+         final @Nullable Component history = this.getHistory();
+ 
+diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
+index 3b04f982b3a31ecdaed412390941e9c9b1e7e0f6..447dd63f7c832f1f09e081164645247cc1d8884c 100644
+--- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
++++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
+@@ -20,7 +20,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
+     @Override
+     protected LineReader buildReader(LineReaderBuilder builder) {
+         builder
+-                .appName("Pufferfish") // Pufferfish - Rebrand
++                .appName("Chlorophyll") // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                 .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
+                 .completer(new ConsoleCommandCompleter(this.server))
+                 .option(LineReader.Option.COMPLETE_IN_WORD, true);
+diff --git a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
+index c1639f79b5a5e53d3a276458e4aa8f44e6841464..504a7e62ec4c198c004bafd13561331e9922554d 100644
+--- a/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
++++ b/src/main/java/io/papermc/paper/ServerBuildInfoImpl.java
+@@ -32,6 +32,7 @@ public record ServerBuildInfoImpl(
+ 
+     private static final String BRAND_PAPER_NAME = "Paper";
+     private static final String BRAND_PUFFERFISH_NAME = "Pufferfish"; // Pufferfish - Rebrand
++    private static final String BRAND_CHLOROPHYLL_NAME = "Chlorophyll"; // Chlorophyll - Rebrand
+ 
+     private static final String BUILD_DEV = "DEV";
+ 
+@@ -43,9 +44,9 @@ public record ServerBuildInfoImpl(
+         this(
+             getManifestAttribute(manifest, ATTRIBUTE_BRAND_ID)
+                 .map(Key::key)
+-                .orElse(BRAND_PUFFERFISH_ID), // Pufferfish - Rebrand
++                .orElse(BRAND_CHLOROPHYLL_ID), // Pufferfish - Rebrand // Chlorophyll - Rebrand
+             getManifestAttribute(manifest, ATTRIBUTE_BRAND_NAME)
+-                .orElse(BRAND_PUFFERFISH_NAME), // Pufferfish - Rebrand
++                .orElse(BRAND_CHLOROPHYLL_NAME), // Pufferfish - Rebrand // Chlorophyll - Rebrand
+             SharedConstants.getCurrentVersion().id(),
+             SharedConstants.getCurrentVersion().name(),
+             getManifestAttribute(manifest, ATTRIBUTE_BUILD_NUMBER)
+diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+index 982455a5eecdb6d80762cc17c2461b467ba5072e..596afa1ace155c119130c257389232205b73704d 100644
+--- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
++++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftScheduler.java
+@@ -493,7 +493,7 @@ public class CraftScheduler implements BukkitScheduler {
+                 this.parsePending();
+             } else {
+                 // this.debugTail = this.debugTail.setNext(new CraftAsyncDebugger(this.currentTick + CraftScheduler.RECENT_TICKS, task.getOwner(), task.getTaskClass())); // Paper
+-                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to Pufferfish"); // Paper // Pufferfish - Rebrand
++                task.getOwner().getLogger().log(Level.SEVERE, "Unexpected Async Task in the Sync Scheduler. Report this to Chlorophyll"); // Paper // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                 // We don't need to parse pending
+                 // (async tasks must live with race-conditions if they attempt to cancel between these few lines of code)
+             }
+diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
+index b1063ec2eb0efceca88b64979e4f9b8e22439112..c7af727ab7a0446b22481477d6d1ebfe98183651 100644
+--- a/src/main/java/org/spigotmc/WatchdogThread.java
++++ b/src/main/java/org/spigotmc/WatchdogThread.java
+@@ -25,7 +25,7 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
+     private volatile boolean stopping;
+ 
+     private WatchdogThread(long timeoutTime, boolean restart) {
+-        super("Pufferfish Watchdog Thread"); // Pufferfish - Rebrand
++        super("Chlorophyll Watchdog Thread"); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+         this.timeoutTime = timeoutTime;
+         this.restart = restart;
+         this.earlyWarningEvery = Math.min(GlobalConfiguration.get().watchdog.earlyWarningEvery, timeoutTime);
+@@ -75,14 +75,14 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
+                 this.lastEarlyWarning = currentTime;
+                 if (isLongTimeout) {
+                     logger.log(Level.SEVERE, "------------------------------");
+-                    logger.log(Level.SEVERE, "The server has stopped responding! This is (probably) not a Pufferfish bug."); // Paper // Pufferfish - Rebrand
++                    logger.log(Level.SEVERE, "The server has stopped responding! This is (probably) not a Chlorophyll bug."); // Paper // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                     logger.log(Level.SEVERE, "If you see a plugin in the Server thread dump below, then please report it to that author");
+                     logger.log(Level.SEVERE, "\t *Especially* if it looks like HTTP or MySQL operations are occurring");
+                     logger.log(Level.SEVERE, "If you see a world save or edit, then it means you did far more than your server can handle at once");
+                     logger.log(Level.SEVERE, "\t If this is the case, consider increasing timeout-time in spigot.yml but note that this will replace the crash with LARGE lag spikes");
+-                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/SerlithNetwork/Puffernot/issues"); // Pufferfish - Rebrand
++                    logger.log(Level.SEVERE, "If you are unsure or still think this is a Paper bug, please report this to https://github.com/Biquaternions/Chlorophyll/issues"); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                     logger.log(Level.SEVERE, "Be sure to include ALL relevant console errors and Minecraft crash reports");
+-                    logger.log(Level.SEVERE, "Pufferfish version: " + Bukkit.getServer().getVersion()); // Pufferfish - Rebrand
++                    logger.log(Level.SEVERE, "Chlorophyll version: " + Bukkit.getServer().getVersion()); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+ 
+                     if (net.minecraft.world.level.Level.lastPhysicsProblem != null) {
+                         logger.log(Level.SEVERE, "------------------------------");
+@@ -102,12 +102,12 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
+                     }
+                     // Paper end
+                 } else {
+-                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PUFFERFISH - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Pufferfish - Rebrand
++                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO CHLOROPHYLL - THIS IS NOT A BUG OR A CRASH  - " + Bukkit.getServer().getVersion() + " ---"); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                     logger.log(Level.SEVERE, "The server has not responded for " + (currentTime - lastTick) / 1000 + " seconds! Creating thread dump");
+                 }
+                 // Paper end - Different message for short timeout
+                 logger.log(Level.SEVERE, "------------------------------");
+-                logger.log(Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Pufferfish!):"); // Paper // Pufferfish - Rebrand
++                logger.log(Level.SEVERE, "Server thread dump (Look for plugins here before reporting to Chlorophyll!):"); // Paper // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                 FeatureHooks.dumpAllChunkLoadInfo(MinecraftServer.getServer(), isLongTimeout); // Paper - log detailed tick information
+                 WatchdogThread.dumpThread(ManagementFactory.getThreadMXBean().getThreadInfo(MinecraftServer.getServer().serverThread.threadId(), Integer.MAX_VALUE), logger);
+                 logger.log(Level.SEVERE, "------------------------------");
+@@ -120,7 +120,7 @@ public class WatchdogThread extends ca.spottedleaf.moonrise.common.util.TickThre
+                         WatchdogThread.dumpThread(thread, logger);
+                     }
+                 } else {
+-                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO PUFFERFISH - THIS IS NOT A BUG OR A CRASH ---"); // Pufferfish - Rebrand
++                    logger.log(Level.SEVERE, "--- DO NOT REPORT THIS TO CHLOROPHYLL - THIS IS NOT A BUG OR A CRASH ---"); // Pufferfish - Rebrand // Chlorophyll - Rebrand
+                 }
+ 
+                 logger.log(Level.SEVERE, "------------------------------");

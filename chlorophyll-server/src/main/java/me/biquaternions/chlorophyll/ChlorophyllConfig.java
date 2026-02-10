@@ -1,0 +1,55 @@
+package me.biquaternions.chlorophyll;
+
+import net.j4c0b3y.api.config.ConfigHandler;
+import net.j4c0b3y.api.config.StaticConfig;
+import java.io.File;
+
+@StaticConfig.Header({
+    "",
+    "Chlorophyll Configuration \uD83D\uDC1F",
+    "This project is a meme/playground, here be dragons~",
+    "",
+    "Configurations marked with:",
+    " \uD83D\uDD25 Support hot reload with /chlorophyll reload",
+    " \uD83D\uDD03 Require a server restart to apply",
+    " ⚠️ Preferably use a clean new world unless you know how to properly adapt your current one",
+    ""
+})
+public class ChlorophyllConfig extends StaticConfig {
+
+    @Ignore
+    public static final ConfigHandler HANDLER = new ConfigHandler();
+
+    @Ignore
+    public static ChlorophyllConfig INSTANCE;
+
+    public ChlorophyllConfig() {
+        super(new File("chlorophyll.yml"), HANDLER);
+        INSTANCE = this;
+
+        String configs = System.getProperty("spark.serverconfigs.extra", "");
+        System.setProperty("spark.serverconfigs.extra", configs.isBlank() ? "chlorophyll.yml" : configs + ",chlorophyll.yml");
+
+    }
+
+    @Priority(1)
+    @SuppressWarnings("unused")
+    public static class INFO {
+        public static String VERSION = "1.0";
+    }
+
+    @Override
+    public void afterLoad() {
+        if (initialized) init();
+        else {
+            // Configs
+        }
+    }
+
+    @Ignore
+    private static boolean initialized = false;
+    public static void init() {
+        initialized = true;
+    }
+
+}
