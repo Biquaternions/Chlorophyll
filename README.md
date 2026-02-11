@@ -22,6 +22,11 @@ Chlorophyll is a [Paper](https://github.com/PaperMC/Paper)/[Pufferfish](https://
 > You can still ask for vanilla parity features.
 > 
 
+## Patches
+
+Patches up to Leaves' #0040 have been validated and implemented. \
+The validation has been made by comparing it with Paper repo and a decompiled vanilla jar.
+
 ## License
 All patches are licensed under the MIT license.
 

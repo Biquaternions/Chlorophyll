@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 10 Feb 2026 18:44:20 -0500
+Subject: [PATCH] Chlorophyll Undo End Crystal Portal Optimizations
+
+According to Leaves 0099-Disable-crystal-portal-proximity-check.path:
+https://github.com/LeavesMC/Leaves/blob/f7b69b3b2140875c3c05e8db0f4e767aef74e83e/leaves-server/minecraft-patches/features/0099-Disable-crystal-portal-proximity-check.patch
+
+The function EnderDragonFight#tryRespawn might have deviations from vanilla behavior.
+I do not find why but also don't have a build at hand to demonstrate said deviation, so this patch will remain empty until,
+proven to be required (in which it will be implemented) or not (it will be deleted and a note will be placed in /docs/NOTES.md).
+
+diff --git a/net/minecraft/world/level/dimension/end/EndDragonFight.java b/net/minecraft/world/level/dimension/end/EndDragonFight.java
+index 04b03940a8c7d0d1e04298d7bcbe245a4174f7d8..b5e0e497383da47cfada8064c8cf6a3c70bd8f09 100644
+--- a/net/minecraft/world/level/dimension/end/EndDragonFight.java
++++ b/net/minecraft/world/level/dimension/end/EndDragonFight.java
+@@ -515,6 +515,7 @@ public class EndDragonFight {
+         return this.tryRespawn(null);
+     }
+ 
++    // Chlorophyll - Maybe breaks vanilla?
+     public boolean tryRespawn(@Nullable BlockPos placedEndCrystalPos) { // placedEndCrystalPos is null if the tryRespawn() call was not caused by a placed end crystal
+         // Paper end - Perf: Do crystal-portal proximity check before entity lookup
+         if (this.dragonKilled && this.respawnStage == null) {

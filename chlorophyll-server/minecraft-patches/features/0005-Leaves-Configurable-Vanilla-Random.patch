@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: violetc <58360096+s-yh-china@users.noreply.github.com>
+Date: Fri, 17 Mar 2023 15:57:08 +0800
+Subject: [PATCH] Leaves Configurable Vanilla Random
+
+Biquaternions note:
+This changes have been validated with a vanilla jar for 1.21.11
+
+diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
+index c598dfcaaca952b7adb7e5eb88e90788d537d5eb..d53187d8585da61edeaf95c1fa599af521335d8c 100644
+--- a/net/minecraft/world/entity/Entity.java
++++ b/net/minecraft/world/entity/Entity.java
+@@ -283,7 +283,7 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, Name
+     public double yOld;
+     public double zOld;
+     public boolean noPhysics;
+-    public final RandomSource random = SHARED_RANDOM; // Paper - Share random for entities to make them more random
++    public final RandomSource random = me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.SHARED_ENTITY_RANDOM ? SHARED_RANDOM : RandomSource.create(); // Paper - Share random for entities to make them more random
+     public int tickCount;
+     private int remainingFireTicks;
+     public boolean wasTouchingWater;
+diff --git a/net/minecraft/world/entity/animal/squid/Squid.java b/net/minecraft/world/entity/animal/squid/Squid.java
+index 0e13879ce2802ff8ef0ee9b745a23396727c3e30..17783671f6bfad6c854082b7f779cc82bc7cce52 100644
+--- a/net/minecraft/world/entity/animal/squid/Squid.java
++++ b/net/minecraft/world/entity/animal/squid/Squid.java
+@@ -48,7 +48,7 @@ public class Squid extends AgeableWaterCreature {
+ 
+     public Squid(EntityType<? extends Squid> type, Level level) {
+         super(type, level);
+-        // this.random.setSeed(this.getId()); // Paper - Share random for entities to make them more random
++        if (!me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.SHARED_ENTITY_RANDOM) this.random.setSeed(this.getId()); // Paper - Share random for entities to make them more random
+         this.tentacleSpeed = 1.0F / (this.random.nextFloat() + 1.0F) * 0.2F;
+     }
+ 

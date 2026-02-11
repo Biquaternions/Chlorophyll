@@ -1,0 +1,48 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 10 Feb 2026 14:12:41 -0500
+Subject: [PATCH] Chlorophyll Disable Default Spigot Configs
+
+This patch is based on the documented changes in Paper's official guide for a vanilla-like experience:
+https://docs.papermc.io/paper/vanilla
+
+Which in turn, is also based on Earthcomputer's collection of vanilla breaking changes:
+https://gist.github.com/Earthcomputer/2296da33b8cc91dba81b48103c0e1fe3
+
+diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+index 43c6240ec2855c0f668ce04de29d22a223d2612f..fa7410005c861162f57749c4a568eb1de4c6c45d 100644
+--- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
++++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
+@@ -184,13 +184,13 @@ public class SpigotWorldConfig {
+         this.log("Item Despawn Rate: " + this.itemDespawnRate);
+     }
+ 
+-    public int animalActivationRange = 32;
+-    public int monsterActivationRange = 32;
+-    public int raiderActivationRange = 64;
+-    public int miscActivationRange = 16;
+-    public int flyingMonsterActivationRange = 32;
+-    public int waterActivationRange = 16;
+-    public int villagerActivationRange = 32;
++    public int animalActivationRange = 0;
++    public int monsterActivationRange = 0;
++    public int raiderActivationRange = 0;
++    public int miscActivationRange = 0;
++    public int flyingMonsterActivationRange = 0;
++    public int waterActivationRange = 0;
++    public int villagerActivationRange = 0;
+     public int wakeUpInactiveAnimals = 4;
+     public int wakeUpInactiveAnimalsEvery = 60 * 20;
+     public int wakeUpInactiveAnimalsFor = 5 * 20;
+@@ -397,9 +397,9 @@ public class SpigotWorldConfig {
+     public int maxTntTicksPerTick;
+     private void maxTntPerTick() {
+         if (SpigotConfig.version < 7) {
+-            this.set("max-tnt-per-tick", 100);
++            this.set("max-tnt-per-tick", -1);
+         }
+-        this.maxTntTicksPerTick = this.getInt("max-tnt-per-tick", 100);
++        this.maxTntTicksPerTick = this.getInt("max-tnt-per-tick", -1);
+         this.log("Max TNT Explosions: " + this.maxTntTicksPerTick);
+     }
+ 

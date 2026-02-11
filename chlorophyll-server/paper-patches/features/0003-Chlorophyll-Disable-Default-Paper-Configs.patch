@@ -1,0 +1,262 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 10 Feb 2026 14:29:41 -0500
+Subject: [PATCH] Chlorophyll Disable Default Paper Configs
+
+This patch is based on the documented changes in Paper's official guide for a vanilla-like experience:
+https://docs.papermc.io/paper/vanilla
+
+Which in turn, is also based on Earthcomputer's collection of vanilla breaking changes:
+https://gist.github.com/Earthcomputer/2296da33b8cc91dba81b48103c0e1fe3
+
+diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
+index e47f279b66b169e2cdf762bb739a261f2acebeb1..f1b5a847a20728a8e6d1103c5bd16c56fdb56541 100644
+--- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
++++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
+@@ -164,31 +164,31 @@ public class GlobalConfiguration extends ConfigurationPart {
+         public int tabSpamLimit = 500;
+         public int recipeSpamIncrement = 1;
+         public int recipeSpamLimit = 20;
+-        public IntOr.Disabled incomingPacketThreshold = new IntOr.Disabled(OptionalInt.of(300));
++        public IntOr.Disabled incomingPacketThreshold = new IntOr.Disabled(OptionalInt.empty());
+     }
+ 
+     public UnsupportedSettings unsupportedSettings;
+ 
+     public class UnsupportedSettings extends ConfigurationPart {
+         @Comment("This setting allows for exploits related to end portals, for example sand duping")
+-        public boolean allowUnsafeEndPortalTeleportation = false;
++        public boolean allowUnsafeEndPortalTeleportation = true;
+         @Comment("This setting controls the ability to enable dupes related to tripwires.")
+-        public boolean skipTripwireHookPlacementValidation = false;
++        public boolean skipTripwireHookPlacementValidation = true;
+         @Comment("This setting controls if players should be able to break bedrock, end portals and other intended to be permanent blocks.")
+-        public boolean allowPermanentBlockBreakExploits = false;
++        public boolean allowPermanentBlockBreakExploits = true;
+         @Comment("This setting controls if player should be able to use TNT duplication, but this also allows duplicating carpet, rails and potentially other items")
+-        public boolean allowPistonDuplication = false;
+-        public boolean performUsernameValidation = true;
++        public boolean allowPistonDuplication = true;
++        public boolean performUsernameValidation = false;
+         @Comment("This setting controls if players should be able to create headless pistons.")
+-        public boolean allowHeadlessPistons = false;
++        public boolean allowHeadlessPistons = true;
+         @Comment("This setting controls if the vanilla damage tick should be skipped if damage was blocked via a shield.")
+         public boolean skipVanillaDamageTickWhenShieldBlocked = false;
+         @Comment("This setting controls what compression format is used for region files.")
+         public CompressionFormat compressionFormat = CompressionFormat.ZLIB;
+         @Comment("This setting controls if equipment should be updated when handling certain player actions.")
+-        public boolean updateEquipmentOnPlayerActions = true;
++        public boolean updateEquipmentOnPlayerActions = false;
+         @Comment("This setting controls what item data components don't need to be sanitized in oversized item obfuscation. Adding them re-enables exploits, but may be needed for certain resource packs. (Expected: minecraft:container, minecraft:charged_projectiles and minecraft:bundle_contents)")
+-        public OversizedItemComponentSanitizer.AssetOversizedItemComponentSanitizerConfiguration oversizedItemComponentSanitizer = new OversizedItemComponentSanitizer.AssetOversizedItemComponentSanitizerConfiguration(Set.of());
++        public OversizedItemComponentSanitizer.AssetOversizedItemComponentSanitizerConfiguration oversizedItemComponentSanitizer = new OversizedItemComponentSanitizer.AssetOversizedItemComponentSanitizerConfiguration(Set.of(DataComponents.CONTAINER, DataComponents.CHARGED_PROJECTILES, DataComponents.BUNDLE_CONTENTS));
+ 
+         public enum CompressionFormat {
+             GZIP,
+@@ -201,8 +201,8 @@ public class GlobalConfiguration extends ConfigurationPart {
+     public Commands commands;
+ 
+     public class Commands extends ConfigurationPart {
+-        public boolean suggestPlayerNamesWhenNullTabCompletions = true;
+-        public boolean timeCommandAffectsAllWorlds = false;
++        public boolean suggestPlayerNamesWhenNullTabCompletions = false;
++        public boolean timeCommandAffectsAllWorlds = true;
+         @Comment("Allow mounting entities to a player in the Vanilla '/ride' command.")
+         public boolean rideCommandAllowPlayerAsVehicle = false;
+     }
+@@ -237,31 +237,31 @@ public class GlobalConfiguration extends ConfigurationPart {
+     public ItemValidation itemValidation;
+ 
+     public class ItemValidation extends ConfigurationPart {
+-        public int displayName = 8192;
+-        public int loreLine = 8192;
++        public int displayName = Integer.MAX_VALUE;
++        public int loreLine = Integer.MAX_VALUE;
+         public Book book;
+ 
+         public class Book extends ConfigurationPart {
+-            public int title = 8192;
+-            public int author = 8192;
+-            public int page = 16384;
++            public int title = Integer.MAX_VALUE;
++            public int author = Integer.MAX_VALUE;
++            public int page = Integer.MAX_VALUE;
+         }
+ 
+         public BookSize bookSize;
+ 
+         public class BookSize extends ConfigurationPart {
+-            public IntOr.Disabled pageMax = new IntOr.Disabled(OptionalInt.of(2560)); // TODO this appears to be a duplicate setting with one above
++            public IntOr.Disabled pageMax = new IntOr.Disabled(OptionalInt.empty()); // TODO this appears to be a duplicate setting with one above
+             public double totalMultiplier = 0.98D; // TODO this should probably be merged into the above inner class
+         }
+-        public boolean resolveSelectorsInBooks = false;
++        public boolean resolveSelectorsInBooks = true;
+     }
+ 
+     public PacketLimiter packetLimiter;
+ 
+     public class PacketLimiter extends ConfigurationPart {
+         public Component kickMessage = Component.translatable("disconnect.exceeded_packet_rate", NamedTextColor.RED);
+-        public PacketLimit allPackets = new PacketLimit(7.0, 500.0, PacketLimit.ViolateAction.KICK);
+-        public Map<@WriteKeyBack Class<? extends Packet<?>>, PacketLimit> overrides = Map.of(ServerboundPlaceRecipePacket.class, new PacketLimit(4.0, 5.0, PacketLimit.ViolateAction.DROP));
++        public PacketLimit allPackets = new PacketLimit(-1.0, 500.0, PacketLimit.ViolateAction.KICK);
++        public Map<@WriteKeyBack Class<? extends Packet<?>>, PacketLimit> overrides = Map.of(ServerboundPlaceRecipePacket.class, new PacketLimit(-1.0, 5.0, PacketLimit.ViolateAction.DROP));
+ 
+         @ConfigSerializable
+         public record PacketLimit(@Required double interval, @Required double maxPacketRate, ViolateAction action) {
+@@ -329,7 +329,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+                 executor.setMaximumPoolSize(_chatExecutorMaxSize);
+             }
+         }
+-        public int maxJoinsPerTick = 5;
++        public int maxJoinsPerTick = Integer.MAX_VALUE;
+         public boolean sendFullPosForItemEntities = false;
+         public boolean loadPermissionsYmlBeforePlugins = true;
+         @Constraints.Min(4)
+@@ -349,7 +349,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+         @Comment("Whether the nether dimension is enabled and will be loaded.")
+         public boolean enableNether = true;
+         @Comment("Keeps Paper's fix for MC-159283 enabled. Disable to use vanilla End ring terrain.")
+-        public boolean fixFarEndTerrainGeneration = true;
++        public boolean fixFarEndTerrainGeneration = false;
+     }
+ 
+     public BlockUpdates blockUpdates;
+diff --git a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+index d34e627f8b6711d443553af74113d096b783b36d..0b31b11a6d33a12b2848a16d7dd6520199a16597 100644
+--- a/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
++++ b/src/main/java/io/papermc/paper/configuration/WorldConfiguration.java
+@@ -171,11 +171,11 @@ public class WorldConfiguration extends ConfigurationPart {
+         public class Spawning extends ConfigurationPart {
+             public ArrowDespawnRate nonPlayerArrowDespawnRate = ArrowDespawnRate.def(WorldConfiguration.this.spigotConfig);
+             public ArrowDespawnRate creativeArrowDespawnRate = ArrowDespawnRate.def(WorldConfiguration.this.spigotConfig);
+-            public IntOr.Disabled maxArrowDespawnInvulnerability = new IntOr.Disabled(OptionalInt.of(200));
+-            public boolean filterBadTileEntityNbtFromFallingBlocks = true;
+-            public List<NbtPathArgument.NbtPath> filteredEntityTagNbtPaths = NbtPathSerializer.fromString(List.of("Pos", "Motion", "sleeping_pos"));
++            public IntOr.Disabled maxArrowDespawnInvulnerability = new IntOr.Disabled(OptionalInt.empty());
++            public boolean filterBadTileEntityNbtFromFallingBlocks = false;
++            public List<NbtPathArgument.NbtPath> filteredEntityTagNbtPaths = NbtPathSerializer.fromString(List.of());
+             public boolean disableMobSpawnerSpawnEggTransformation = false;
+-            public boolean perPlayerMobSpawns = true;
++            public boolean perPlayerMobSpawns = false;
+             public boolean scanForLegacyEnderDragon = true;
+             @MergeMap
+             public Reference2IntMap<MobCategory> spawnLimits = Util.make(new Reference2IntOpenHashMap<>(NaturalSpawner.SPAWNING_CATEGORIES.length), map -> Arrays.stream(NaturalSpawner.SPAWNING_CATEGORIES).forEach(mobCategory -> map.put(mobCategory, -1)));
+@@ -249,13 +249,13 @@ public class WorldConfiguration extends ConfigurationPart {
+             @BelowZeroToEmpty
+             public DoubleOr.Default skeletonHorseThunderSpawnChance = DoubleOr.Default.USE_DEFAULT;
+             public boolean ironGolemsCanSpawnInAir = false;
+-            public boolean countAllMobsForSpawning = false;
++            public boolean countAllMobsForSpawning = true;
+             @BelowZeroToEmpty
+             public IntOr.Default monsterSpawnMaxLightLevel = IntOr.Default.USE_DEFAULT;
+             public DuplicateUUID duplicateUuid;
+ 
+             public class DuplicateUUID extends ConfigurationPart {
+-                public DuplicateUUIDMode mode = DuplicateUUIDMode.SAFE_REGEN;
++                public DuplicateUUIDMode mode = DuplicateUUIDMode.NOTHING;
+                 public int safeRegenDeleteRange = 32;
+ 
+                 public enum DuplicateUUIDMode {
+@@ -293,8 +293,8 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+             public boolean disableCreeperLingeringEffect = false;
+             public boolean enderDragonsDeathAlwaysPlacesDragonEgg = false;
+-            public boolean phantomsDoNotSpawnOnCreativePlayers = true;
+-            public boolean phantomsOnlyAttackInsomniacs = true;
++            public boolean phantomsDoNotSpawnOnCreativePlayers = false;
++            public boolean phantomsOnlyAttackInsomniacs = false;
+             public int playerInsomniaStartTicks = 72000;
+             public int phantomsSpawnAttemptMinSeconds = 60;
+             public int phantomsSpawnAttemptMaxSeconds = 119;
+@@ -311,7 +311,7 @@ public class WorldConfiguration extends ConfigurationPart {
+             public boolean disablePlayerCrits = false;
+             public boolean nerfPigmenFromNetherPortals = false;
+             @Comment("Prevents merging items that are not on the same y level, preventing potential visual artifacts.")
+-            public boolean onlyMergeItemsHorizontally = false;
++            public boolean onlyMergeItemsHorizontally = true;
+             public PillagerPatrols pillagerPatrols;
+ 
+             public class PillagerPatrols extends ConfigurationPart {
+@@ -332,9 +332,9 @@ public class WorldConfiguration extends ConfigurationPart {
+             }
+ 
+             @Comment("Adds a cooldown to bees being released after a failed release, which can occur if the hive is blocked or it being night.")
+-            public boolean cooldownFailedBeehiveReleases = true;
++            public boolean cooldownFailedBeehiveReleases = false;
+             @Comment("The delay before retrying POI acquisition when entity navigation is stuck. This will reduce pathfinding performance impact. Measured in ticks.")
+-            public IntOr.Disabled stuckEntityPoiRetryDelay = new IntOr.Disabled(OptionalInt.of(200));
++            public IntOr.Disabled stuckEntityPoiRetryDelay = new IntOr.Disabled(OptionalInt.empty());
+         }
+ 
+         public TrackingRangeY trackingRangeY;
+@@ -403,7 +403,7 @@ public class WorldConfiguration extends ConfigurationPart {
+ 
+     public class Scoreboards extends ConfigurationPart {
+         public boolean allowNonPlayerEntitiesOnScoreboards = true;
+-        public boolean useVanillaWorldScoreboardNameColoring = false;
++        public boolean useVanillaWorldScoreboardNameColoring = true;
+     }
+ 
+     public Environment environment;
+@@ -457,7 +457,7 @@ public class WorldConfiguration extends ConfigurationPart {
+     public Maps maps;
+ 
+     public class Maps extends ConfigurationPart {
+-        public int itemFrameCursorLimit = 128;
++        public int itemFrameCursorLimit = Integer.MAX_VALUE;
+         public int itemFrameCursorUpdateInterval = 10;
+     }
+ 
+@@ -475,14 +475,14 @@ public class WorldConfiguration extends ConfigurationPart {
+     public UnsupportedSettings unsupportedSettings;
+ 
+     public class UnsupportedSettings extends ConfigurationPart {
+-        public boolean fixInvulnerableEndCrystalExploit = true;
+-        public boolean disableWorldTickingWhenEmpty = false;
++        public boolean fixInvulnerableEndCrystalExploit = false;
++        public boolean disableWorldTickingWhenEmpty = true;
+     }
+ 
+     public Hopper hopper;
+ 
+     public class Hopper extends ConfigurationPart {
+-        public boolean cooldownWhenFull = true;
++        public boolean cooldownWhenFull = false;
+         public boolean disableMoveEvent = false;
+         public boolean ignoreOccludingBlocks = false;
+     }
+@@ -494,18 +494,18 @@ public class WorldConfiguration extends ConfigurationPart {
+         public boolean allowVehicleCollisions = true;
+         public boolean fixClimbingBypassingCrammingRule = false;
+         @RequiresSpigotInitialization(MaxEntityCollisionsInitializer.class)
+-        public int maxEntityCollisions = 8;
+-        public boolean allowPlayerCrammingDamage = false;
++        public int maxEntityCollisions = Integer.MAX_VALUE;
++        public boolean allowPlayerCrammingDamage = true;
+     }
+ 
+     public Chunks chunks;
+ 
+     public class Chunks extends ConfigurationPart {
+         public AutosavePeriod autoSaveInterval = AutosavePeriod.def();
+-        public int maxAutoSaveChunksPerTick = 24;
++        public int maxAutoSaveChunksPerTick = 200;
+         public int fixedChunkInhabitedTime = -1;
+         public boolean preventMovingIntoUnloadedChunks = false;
+-        public Duration delayChunkUnloadsBy = Duration.of("10s");
++        public Duration delayChunkUnloadsBy = Duration.of("0s");
+         public Reference2IntMap<EntityType<?>> entityPerChunkSaveLimit = Util.make(new Reference2IntOpenHashMap<>(BuiltInRegistries.ENTITY_TYPE.size()), map -> {
+             map.defaultReturnValue(-1);
+             map.put(EntityType.EXPERIENCE_ORB, -1);
+@@ -577,7 +577,7 @@ public class WorldConfiguration extends ConfigurationPart {
+         public boolean disableSprintInterruptionOnAttack = false;
+         public boolean disableRelativeProjectileVelocity = false;
+         public boolean legacyEnderPearlBehavior = false;
+-        public boolean allowRemoteEnderDragonRespawning = false;
++        public boolean allowRemoteEnderDragonRespawning = true;
+ 
+         public enum RedstoneImplementation {
+             VANILLA, EIGENCRAFT, ALTERNATE_CURRENT

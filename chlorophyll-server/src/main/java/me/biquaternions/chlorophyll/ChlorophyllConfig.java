@@ -7,7 +7,7 @@ import java.io.File;
 @StaticConfig.Header({
     "",
     "Chlorophyll Configuration \uD83D\uDC1F",
-    "This project is a meme/playground, here be dragons~",
+    "This project restores vanilla behavior, including all its exploits, here be dragons~",
     "",
     "Configurations marked with:",
     " \uD83D\uDD25 Support hot reload with /chlorophyll reload",
@@ -46,6 +46,20 @@ public class ChlorophyllConfig extends StaticConfig {
             public static boolean PROJECTILE_CHUNK_LOADING_OPTIMIZATION = false;
 
             public static boolean BLOCK_GOAL_CHUNK_LOADING_OPTIMIZATION = false;
+
+        }
+
+        public static class PAPER {
+
+            public static boolean VILLAGER_VOID_TRADING_FIX = false;
+
+            public static boolean SPIGOT_ENTITY_TRACKING = false;
+
+            public static boolean SHARED_ENTITY_RANDOM = false;
+
+            public static boolean PREVENT_LEVEL_CONSTRUCTOR_RANDOM = false;
+
+            public static boolean BREAK_REDSTONE_ON_TRAPDOOR_EARLY = false;
 
         }
 

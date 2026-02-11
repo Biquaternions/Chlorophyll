@@ -1,0 +1,42 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 10 Feb 2026 17:17:39 -0500
+Subject: [PATCH] Chlorophyll Toggle Redstone Redstone On Trapdoors
+
+This patch is based on Leaves':
+https://github.com/LeavesMC/Leaves/blob/master/leaves-server/minecraft-patches/features/0040-Fix-trapdoor-feature.patch
+
+It makes the entire redstone breaking logic on trapdoors toggeable:
+https://github.com/PaperMC/Paper/blob/6103cc7f608badbd5e4fab95a2161cf398d5074f/paper-server/patches/sources/net/minecraft/world/level/block/TrapDoorBlock.java.patch
+
+diff --git a/net/minecraft/world/level/block/TrapDoorBlock.java b/net/minecraft/world/level/block/TrapDoorBlock.java
+index b45ae50db32c4156b8f8008335673d20c570c72d..3a4bd752af5aff6313d02620962867c57ee67e05 100644
+--- a/net/minecraft/world/level/block/TrapDoorBlock.java
++++ b/net/minecraft/world/level/block/TrapDoorBlock.java
+@@ -128,6 +128,9 @@ public class TrapDoorBlock extends HorizontalDirectionalBlock implements SimpleW
+         if (!level.isClientSide()) {
+             boolean hasNeighborSignal = level.hasNeighborSignal(pos);
+             if (hasNeighborSignal != state.getValue(POWERED)) {
++                // Chlorophyll start - Toggle break redstone on trapdoor early
++                boolean open = state.getValue(OPEN) != hasNeighborSignal;
++                if (me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.BREAK_REDSTONE_ON_TRAPDOOR_EARLY) {
+                 // CraftBukkit start
+                 org.bukkit.block.Block bblock = org.bukkit.craftbukkit.block.CraftBlock.at(level, pos);
+                 int power = bblock.getBlockPower();
+@@ -140,7 +143,7 @@ public class TrapDoorBlock extends HorizontalDirectionalBlock implements SimpleW
+                 }
+                 // CraftBukkit end
+                 // Paper start - break redstone on trapdoors early
+-                boolean open = state.getValue(TrapDoorBlock.OPEN) != hasNeighborSignal;
++                open = state.getValue(TrapDoorBlock.OPEN) != hasNeighborSignal; // Chlorophyll - Toggle break redstone on trapdoor early
+                 // note: this must run before any state for this block/its neighbours are written to the world
+                 // we allow the redstone event to fire so that plugins can block
+                 if (hasNeighborSignal && open) { // if we are now powered and it caused the trap door to open
+@@ -157,6 +160,7 @@ public class TrapDoorBlock extends HorizontalDirectionalBlock implements SimpleW
+                         }
+                     }
+                 }
++                } // Chlorophyll end - Toggle break redstone on trapdoor early
+                 if (open) {
+                     // Paper end - break redstone on trapdoors early
+                     state = state.setValue(OPEN, hasNeighborSignal);

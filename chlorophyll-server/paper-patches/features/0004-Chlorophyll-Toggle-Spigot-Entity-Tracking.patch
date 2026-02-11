@@ -1,0 +1,23 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 10 Feb 2026 16:06:18 -0500
+Subject: [PATCH] Chlorophyll Toggle Spigot Entity Tracking
+
+This patch disables Spigot's entity tracking logic.
+Entities will now be tracked following vanilla's logic (view distance * 16).
+
+Because there will be no per-entity tracking, the entire logic of ChunkMap#getEffectiveRange
+to check for passengers can be disabled.
+
+diff --git a/src/main/java/org/spigotmc/TrackingRange.java b/src/main/java/org/spigotmc/TrackingRange.java
+index c4384fd7ca7dc0895967dd7902dfa906bebe4e8b..30dcb54d4fdf459062569c05243e29e4a5719fae 100644
+--- a/src/main/java/org/spigotmc/TrackingRange.java
++++ b/src/main/java/org/spigotmc/TrackingRange.java
+@@ -21,6 +21,7 @@ public final class TrackingRange {
+      * @param defaultRange Default range defined by Mojang
+      */
+     public static int getEntityTrackingRange(final Entity entity, final int defaultRange) {
++        if (me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.SPIGOT_ENTITY_TRACKING) return defaultRange; // Chlorophyll - Entity Tracking
+         if (defaultRange == 0) {
+             return defaultRange;
+         }
