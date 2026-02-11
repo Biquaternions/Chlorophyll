@@ -7,13 +7,19 @@ Chlorophyll is a [Paper](https://github.com/PaperMC/Paper)/[Pufferfish](https://
 </div>
 
 > [!WARNING]
-> This project restores vanilla mechanics \
+> This project is in its early stages and I do not recommend using it seriously yet. \
+> It will run, but I still need to test it with plugins, and compare its mechanics \
+> to an actual vanilla instance.
+> 
+
+> [!WARNING]
+> This project restores vanilla mechanics. \
 > While this means technical builds will work again, it also means:
 > 
 > 1. Performance degradation compared to Paper
 > 2. Exploits, even server crashing ones, will also be reintroduced
 > 
-> Therefore, this project is not meant for a production-ready public server \
+> Therefore, this project is not meant for a production-ready public server. \
 > Its usage should be limited to small and closed communities.
 > 
 > There will be NO SUPPORT for crashing exploits. \
