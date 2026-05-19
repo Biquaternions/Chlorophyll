@@ -1,4 +1,4 @@
-name: Build 1.21.11
+name: Build 26.1.2
 on:
   workflow_dispatch:
   pull_request:
@@ -37,8 +37,8 @@ jobs:
       - name: Apply Patches
         run: ./gradlew applyAllPatches --stacktrace
 
-      - name: Create MojmapPaperclipJar
-        run: ./gradlew createMojmapPaperclipJar --stacktrace
+      - name: Create Paperclip Jar
+        run: ./gradlew createPaperclipJar --stacktrace
 
       - name: Prepare release notes and artifacts
         run: |
@@ -52,17 +52,17 @@ jobs:
       - name: Upload Chlorophyll
         uses: actions/upload-artifact@main
         with:
-          name: Chlorophyll 1.21.11
-          path: ./chlorophyll-server/build/libs/chlorophyll-paperclip-1.21.11-R0.1-SNAPSHOT-mojmap.jar
+          name: Chlorophyll 26.1.2
+          path: ./chlorophyll-server/build/libs/chlorophyll-paperclip-*.jar
 
       - name: Release Chlorophyll
         uses: softprops/action-gh-release@master
         with:
-          name: "🍃 Chlorophyll 1.21.11 (Build ${{ env.BUILD_NUMBER }})"
-          tag_name: "ver-1.21.11"
+          name: "🍃 Chlorophyll 26.1.2 (Build ${{ env.BUILD_NUMBER }})"
+          tag_name: "ver-26.1.2"
           files: |
-            ./chlorophyll-server/build/libs/chlorophyll-paperclip-1.21.11-R0.1-SNAPSHOT-mojmap.jar
-            ./chlorophyll-api/build/libs/chlorophyll-api-1.21.11-R0.1-SNAPSHOT.jar
+            ./chlorophyll-server/build/libs/chlorophyll-paperclip-*.jar
+            ./chlorophyll-api/build/libs/chlorophyll-api-*.jar
           body_path: "./RELEASE.md"
           token: "${{ secrets.GITHUB_TOKEN }}"
           target_commitish: "${{ github.sha }}"
@@ -75,4 +75,4 @@ jobs:
           url: https://version.serlith.net/submit
           method: 'POST'
           customHeaders: '{"Content-Type": "application/json", "Authorization": "${{ secrets.VERSION_TOKEN }}", "Server-Software": "Chlorophyll"}'
-          data: '{ "software": "Chlorophyll", "version": "1.21.11", "build": ${{ env.BUILD_NUMBER }} }'
+          data: '{ "software": "Chlorophyll", "version": "26.1.2", "build": ${{ env.BUILD_NUMBER }} }'
