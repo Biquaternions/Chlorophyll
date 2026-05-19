@@ -1,0 +1,35 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Biquaternions <biquaternions@serlith.net>
+Date: Tue, 19 May 2026 14:39:12 -0500
+Subject: [PATCH] Chlorophyll Toggle Early Redstone Trapdoor Break
+
+This patch is based on Leaves':
+https://github.com/LeavesMC/Leaves/blob/f7b69b3b2140875c3c05e8db0f4e767aef74e83e/leaves-server/minecraft-patches/features/0040-Fix-trapdoor-feature.patch
+
+It makes the entire redstone breaking logic on trapdoors toggeable:
+https://github.com/PaperMC/Paper/blob/6103cc7f608badbd5e4fab95a2161cf398d5074f/paper-server/patches/sources/net/minecraft/world/level/block/TrapDoorBlock.java.patch
+
+It is adapted to work in 26.1.2+ and allows the BlockRedstoneEvent to properly fire.
+
+diff --git a/net/minecraft/world/level/block/TrapDoorBlock.java b/net/minecraft/world/level/block/TrapDoorBlock.java
+index cfc8b668980e0cba74b3f0d42c4902eb6aa8b01e..6dafbd6f110ab5f9630b56f44c7fa0168cdb1f78 100644
+--- a/net/minecraft/world/level/block/TrapDoorBlock.java
++++ b/net/minecraft/world/level/block/TrapDoorBlock.java
+@@ -140,6 +140,8 @@ public class TrapDoorBlock extends HorizontalDirectionalBlock implements SimpleW
+                 // Paper end - Call BlockRedstoneEvent
+                 // Paper start - break redstone on trapdoors early
+                 boolean open = state.getValue(TrapDoorBlock.OPEN) != signal;
++                // Chlorophyll start - Toggle break redstone on trapdoor early
++                if (me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.BREAK_REDSTONE_ON_TRAPDOOR_EARLY) {
+                 // note: this must run before any state for this block/its neighbours are written to the world
+                 // we allow the redstone event to fire so that plugins can block
+                 if (signal && open) { // if we are now powered and it caused the trap door to open
+@@ -156,6 +158,8 @@ public class TrapDoorBlock extends HorizontalDirectionalBlock implements SimpleW
+                         }
+                     }
+                 }
++                }
++                // Chlorophyll end - Toggle break redstone on trapdoor early
+                 if (open) {
+                     // Paper end - break redstone on trapdoors early
+                     state = state.setValue(OPEN, signal);

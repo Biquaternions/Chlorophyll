@@ -10,7 +10,7 @@ Which in turn, is also based on Earthcomputer's collection of vanilla breaking c
 https://gist.github.com/Earthcomputer/2296da33b8cc91dba81b48103c0e1fe3
 
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 339832e312578ee385bbf3c9d5c131435abe7d7a..a686e380a7e16774f30bd81dc4479856eb43e439 100644
+index 339832e312578ee385bbf3c9d5c131435abe7d7a..8bc2eaff4cd01b94f9210040ef35561b73523735 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
 @@ -197,13 +197,13 @@ public class SpigotWorldConfig {
@@ -34,6 +34,15 @@ index 339832e312578ee385bbf3c9d5c131435abe7d7a..a686e380a7e16774f30bd81dc4479856
      public int wakeUpInactiveAnimals = 4;
      public int wakeUpInactiveAnimalsEvery = 60 * 20;
      public int wakeUpInactiveAnimalsFor = 5 * 20;
+@@ -284,7 +284,7 @@ public class SpigotWorldConfig {
+         }
+         this.hopperCheck = this.getInt("ticks-per.hopper-check", 1);
+         this.hopperAmount = this.getInt("hopper-amount", 1);
+-        this.hopperCanLoadChunks = this.getBoolean("hopper-can-load-chunks", false);
++        this.hopperCanLoadChunks = this.getBoolean("hopper-can-load-chunks", true);
+         this.log("Hopper Transfer: " + this.hopperTransfer + " Hopper Check: " + this.hopperCheck + " Hopper Amount: " + this.hopperAmount + " Hopper Can Load Chunks: " + this.hopperCanLoadChunks);
+     }
+ 
 @@ -410,9 +410,9 @@ public class SpigotWorldConfig {
      public int maxTntTicksPerTick;
      private void maxTntPerTick() {
