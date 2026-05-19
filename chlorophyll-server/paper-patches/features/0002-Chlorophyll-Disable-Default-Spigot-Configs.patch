@@ -10,10 +10,10 @@ Which in turn, is also based on Earthcomputer's collection of vanilla breaking c
 https://gist.github.com/Earthcomputer/2296da33b8cc91dba81b48103c0e1fe3
 
 diff --git a/src/main/java/org/spigotmc/SpigotWorldConfig.java b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-index 43c6240ec2855c0f668ce04de29d22a223d2612f..fa7410005c861162f57749c4a568eb1de4c6c45d 100644
+index 339832e312578ee385bbf3c9d5c131435abe7d7a..a686e380a7e16774f30bd81dc4479856eb43e439 100644
 --- a/src/main/java/org/spigotmc/SpigotWorldConfig.java
 +++ b/src/main/java/org/spigotmc/SpigotWorldConfig.java
-@@ -184,13 +184,13 @@ public class SpigotWorldConfig {
+@@ -197,13 +197,13 @@ public class SpigotWorldConfig {
          this.log("Item Despawn Rate: " + this.itemDespawnRate);
      }
  
@@ -34,7 +34,7 @@ index 43c6240ec2855c0f668ce04de29d22a223d2612f..fa7410005c861162f57749c4a568eb1d
      public int wakeUpInactiveAnimals = 4;
      public int wakeUpInactiveAnimalsEvery = 60 * 20;
      public int wakeUpInactiveAnimalsFor = 5 * 20;
-@@ -397,9 +397,9 @@ public class SpigotWorldConfig {
+@@ -410,9 +410,9 @@ public class SpigotWorldConfig {
      public int maxTntTicksPerTick;
      private void maxTntPerTick() {
          if (SpigotConfig.version < 7) {

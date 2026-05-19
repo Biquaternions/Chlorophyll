@@ -5,34 +5,34 @@ Subject: [PATCH] Chlorophyll Added Config And Command
 
 
 diff --git a/net/minecraft/server/Main.java b/net/minecraft/server/Main.java
-index 3d23421acb441eb40ca730692e5d955027fb4dcc..5654151a6768109a1d82438d11b94f44a3236dd0 100644
+index aa15c5c83f04e518c30a9dee7945062099197c25..9dc809d3457f54fa9c38042484dafb6dc7696a1a 100644
 --- a/net/minecraft/server/Main.java
 +++ b/net/minecraft/server/Main.java
-@@ -105,6 +105,7 @@ public class Main {
+@@ -104,6 +104,7 @@ public class Main {
                  JvmProfiler.INSTANCE.start(Environment.SERVER);
              }
  
 +            new me.biquaternions.chlorophyll.ChlorophyllConfig().load(); // Chlorophyll - Config and command
-             io.papermc.paper.plugin.PluginInitializerManager.load(optionSet); // Paper
+             io.papermc.paper.plugin.PluginInitializerManager.load(options); // Paper
              Bootstrap.bootStrap();
              Bootstrap.validate();
 diff --git a/net/minecraft/server/ReloadableServerResources.java b/net/minecraft/server/ReloadableServerResources.java
-index fcc1c2ca594f543a91e59c680c1892cdddacca36..c177c116738c83060385749806e8a4ef8816a94d 100644
+index 5dea2d28e18fa77e6ce900627445cf2a020faa08..70c5dbfeafb3711fd164c062cc681eb85ed049b0 100644
 --- a/net/minecraft/server/ReloadableServerResources.java
 +++ b/net/minecraft/server/ReloadableServerResources.java
-@@ -44,6 +44,7 @@ public class ReloadableServerResources {
+@@ -49,6 +49,7 @@ public class ReloadableServerResources {
          io.papermc.paper.command.PaperCommands.registerCommands(); // Paper
          gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish - Config and command
          gg.pufferfish.pufferfish.flare.FlareCommand.init(); // Pufferfish - Config and command
 +        me.biquaternions.chlorophyll.ChlorophyllCommand.init(); // Chlorophyll - Config and command
-         this.advancements = new ServerAdvancementManager(registries);
-         this.functionLibrary = new ServerFunctionLibrary(permissions, this.commands.getDispatcher());
+         this.advancements = new ServerAdvancementManager(loadingContext);
+         this.functionLibrary = new ServerFunctionLibrary(functionCompilationPermissions, this.commands.getDispatcher());
      }
 diff --git a/net/minecraft/server/dedicated/DedicatedServer.java b/net/minecraft/server/dedicated/DedicatedServer.java
-index d3dc03775c08b252fb88a20c94fad91eacf9a032..3724eb6abb46b83d40beb2f3f593a65a92605372 100644
+index 4c5e0bf891da47ac4f5211513ec952b8ee55b66a..bee9c6d4bc6946d44d0f7995f5f6d0bf38f01c20 100644
 --- a/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -275,6 +275,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -296,6 +296,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
          new gg.pufferfish.pufferfish.PufferfishConfig().load(); // Pufferfish - Config and command

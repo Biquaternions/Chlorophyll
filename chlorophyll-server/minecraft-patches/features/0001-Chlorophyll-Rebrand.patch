@@ -5,7 +5,7 @@ Subject: [PATCH] Chlorophyll Rebrand
 
 
 diff --git a/net/minecraft/CrashReport.java b/net/minecraft/CrashReport.java
-index 355a5e04afe3a1f685bc5fab7e6161e01a7c69c5..7231e456f47c65cde57be5973b51224a970e4489 100644
+index c4895c7cce724792ce61d84db935aebb74d3b3ed..76b39b386852841f24dfea768cced3171cb92a7b 100644
 --- a/net/minecraft/CrashReport.java
 +++ b/net/minecraft/CrashReport.java
 @@ -30,7 +30,7 @@ public class CrashReport {
@@ -15,23 +15,10 @@ index 355a5e04afe3a1f685bc5fab7e6161e01a7c69c5..7231e456f47c65cde57be5973b51224a
 -    private final List<String> extraInfo = List.of("", "DO NOT REPORT THIS TO PAPER! REPORT THIS TO PUFFERFISH!", ""); // Pufferfish - Rebrand
 +    private final List<String> extraInfo = List.of("", "DO NOT REPORT THIS TO PAPER! REPORT THIS TO CHLOROPHYLL!", ""); // Pufferfish - Rebrand // Chlorophyll - Rebrand
  
-     public CrashReport(String title, Throwable exception) {
-         io.papermc.paper.util.StacktraceDeobfuscator.INSTANCE.deobfuscateThrowable(exception); // Paper
-diff --git a/net/minecraft/server/Eula.java b/net/minecraft/server/Eula.java
-index 1f0413214f54e9a47f53c623484d6882c85f54c9..f95e7f6387a327c2add892e461712d14d5750a55 100644
---- a/net/minecraft/server/Eula.java
-+++ b/net/minecraft/server/Eula.java
-@@ -46,7 +46,7 @@ public class Eula {
-             try (OutputStream outputStream = Files.newOutputStream(this.file)) {
-                 Properties map = new Properties();
-                 map.setProperty("eula", "false");
--                map.store(outputStream, "By changing the setting below to TRUE you are indicating your agreement to our EULA (" + CommonLinks.EULA + ").");
-+                map.store(outputStream, "By changing the setting below to TRUE you are indicating your agreement to our EULA (" + CommonLinks.EULA + ").\nYou also agree to embrace carcinisation when the time comes...");
-             } catch (Exception var6) {
-                 LOGGER.warn("Failed to save {}", this.file, var6);
-             }
+     public CrashReport(final String title, final Throwable t) {
+         this.title = title;
 diff --git a/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 2b0b3b25ac28972e4852f9fbc465f5dba4a68358..e7cf4aa944a832c6b4e2354ffb643a228df9d2f0 100644
+index 6e06fb1f9907eb4aa48de2247c28dd59672ebd9e..5d81773c390290fa14f37d785473ea94e758c91d 100644
 --- a/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -309,7 +309,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise

@@ -5,43 +5,43 @@ Subject: [PATCH] Chlorophyll Toggle Pufferfish Optimizations
 
 
 diff --git a/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java b/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
-index 4ec862f38ed480c3e59d020e7a0d411a771e8e55..fad7c45d04b573aa3549493d59e3bc558b70ea42 100644
+index ff831db0cb16f130ad702677f6805051debeb0a8..cfc84a5fb95499a6022eee95f255e9a1a8fc1257 100644
 --- a/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
 +++ b/net/minecraft/world/entity/ai/goal/MoveToBlockGoal.java
 @@ -119,6 +119,7 @@ public abstract class MoveToBlockGoal extends Goal {
-                 for (int i4 = 0; i4 <= i3; i4 = i4 > 0 ? -i4 : 1 - i4) {
-                     for (int i5 = i4 < i3 && i4 > -i3 ? i3 : 0; i5 <= i3; i5 = i5 > 0 ? -i5 : 1 - i5) {
-                         mutableBlockPos.setWithOffset(blockPos, i4, i2 - 1, i5);
+                 for (int x = 0; x <= r; x = x > 0 ? -x : 1 - x) {
+                     for (int z = x < r && x > -r ? r : 0; z <= r; z = z > 0 ? -z : 1 - z) {
+                         pos.setWithOffset(mobPos, x, y - 1, z);
 +                        if (me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PUFFERFISH.BLOCK_GOAL_CHUNK_LOADING_OPTIMIZATION) // Chlorophyll - Make toggleable
-                         if (!this.mob.level().hasChunkAt(mutableBlockPos)) continue; // Pufferfish - if this block isn't loaded, continue
-                         if (this.mob.isWithinHome(mutableBlockPos) && this.isValidTarget(this.mob.level(), mutableBlockPos)) {
-                             this.blockPos = mutableBlockPos;
+                         if (!this.mob.level().hasChunkAt(pos)) continue; // Pufferfish - if this block isn't loaded, continue
+                         if (this.mob.isWithinHome(pos) && this.isValidTarget(this.mob.level(), pos)) {
+                             this.blockPos = pos;
 diff --git a/net/minecraft/world/entity/monster/EnderMan.java b/net/minecraft/world/entity/monster/EnderMan.java
-index 645d121b456c5b211b06296e716e5ac6724d1135..e018b5aab7eb4ba1f8e97e965e87264258dc7f16 100644
+index 6cd88eff2ac2583488cd0701aef497e9a3fc85b8..19652fce6476ffde73a44baf84e12bb84387a63f 100644
 --- a/net/minecraft/world/entity/monster/EnderMan.java
 +++ b/net/minecraft/world/entity/monster/EnderMan.java
-@@ -301,7 +301,7 @@ public class EnderMan extends Monster implements NeutralMob {
-         BlockPos.MutableBlockPos mutableBlockPos = new BlockPos.MutableBlockPos(x, y, z);
+@@ -299,7 +299,7 @@ public class EnderMan extends Monster implements NeutralMob {
+         BlockPos.MutableBlockPos pos = new BlockPos.MutableBlockPos(x, y, z);
  
          // Pufferfish start - single chunk lookup
--        net.minecraft.world.level.chunk.LevelChunk chunk = this.level().getChunkIfLoaded(mutableBlockPos);
-+        net.minecraft.world.level.chunk.LevelChunk chunk = this.level().getChunkIfLoaded(mutableBlockPos); // Chlorophyll - Keep in check, it might damage RNG manipulation (enderman teleport)
+-        net.minecraft.world.level.chunk.LevelChunk chunk = this.level().getChunkIfLoaded(pos);
++        net.minecraft.world.level.chunk.LevelChunk chunk = this.level().getChunkIfLoaded(pos); // Chlorophyll - Keep in check, it might damage RNG manipulation (enderman teleport)
          if (chunk == null) {
              return false;
          }
 diff --git a/net/minecraft/world/entity/projectile/Projectile.java b/net/minecraft/world/entity/projectile/Projectile.java
-index fe8be7fb0d34c733bf3bb2322560bd402bed35c5..19bc71a1094d3e0a01bcdc50477b07b1a5bde5f0 100644
+index 199ae275d13903e7499d07eaf0bb6b898863b8f3..e40542310d1cda11aed0f63dddf42322a7c97320 100644
 --- a/net/minecraft/world/entity/projectile/Projectile.java
 +++ b/net/minecraft/world/entity/projectile/Projectile.java
 @@ -57,6 +57,11 @@ public abstract class Projectile extends Entity implements TraceableEntity {
      private int pufferfish$loadedLifetime = 0;
      @Override
-     public void setPos(double x, double y, double z) {
+     public void setPos(final double x, final double y, final double z) {
 +        // Chlorophyll start - Toggle Reduce Projectile Chunk Loading
 +        if (!me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PUFFERFISH.PROJECTILE_CHUNK_LOADING_OPTIMIZATION) {
 +            super.setPos(x, y, z);
 +            return;
 +        } // Chlorophyll stop - Toggle Reduce Projectile Chunk Loading
          int currentTick = net.minecraft.server.MinecraftServer.currentTick;
-         if (pufferfish$loadedTick != currentTick) {
-             pufferfish$loadedTick = currentTick;
+         if (Projectile.PUFFERFISH$LOADED_TICK != currentTick) {
+             Projectile.PUFFERFISH$LOADED_TICK = currentTick;

@@ -7,10 +7,10 @@ Biquaternions note:
 This changes have been validated with a vanilla jar for 1.21.11
 
 diff --git a/net/minecraft/world/entity/Entity.java b/net/minecraft/world/entity/Entity.java
-index c598dfcaaca952b7adb7e5eb88e90788d537d5eb..d53187d8585da61edeaf95c1fa599af521335d8c 100644
+index 9080d4cb76ca4f082cfe25ad735468626f04d3fc..5b53284ae29d0d00d30b10aa2430da4f5a2694fa 100644
 --- a/net/minecraft/world/entity/Entity.java
 +++ b/net/minecraft/world/entity/Entity.java
-@@ -283,7 +283,7 @@ public abstract class Entity implements SyncedDataHolder, DebugValueSource, Name
+@@ -298,7 +298,7 @@ public abstract class Entity
      public double yOld;
      public double zOld;
      public boolean noPhysics;
@@ -18,14 +18,14 @@ index c598dfcaaca952b7adb7e5eb88e90788d537d5eb..d53187d8585da61edeaf95c1fa599af5
 +    public final RandomSource random = me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.SHARED_ENTITY_RANDOM ? SHARED_RANDOM : RandomSource.create(); // Paper - Share random for entities to make them more random
      public int tickCount;
      private int remainingFireTicks;
-     public boolean wasTouchingWater;
+     private final EntityFluidInteraction fluidInteraction = new EntityFluidInteraction(Set.of(FluidTags.WATER, FluidTags.LAVA));
 diff --git a/net/minecraft/world/entity/animal/squid/Squid.java b/net/minecraft/world/entity/animal/squid/Squid.java
-index 0e13879ce2802ff8ef0ee9b745a23396727c3e30..17783671f6bfad6c854082b7f779cc82bc7cce52 100644
+index a0dacdd92a55df9d08111c6861d09c9c6dee0213..14f2ae778467c0c534cbdb7dea902560db32e7c5 100644
 --- a/net/minecraft/world/entity/animal/squid/Squid.java
 +++ b/net/minecraft/world/entity/animal/squid/Squid.java
-@@ -48,7 +48,7 @@ public class Squid extends AgeableWaterCreature {
+@@ -51,7 +51,7 @@ public class Squid extends AgeableWaterCreature {
  
-     public Squid(EntityType<? extends Squid> type, Level level) {
+     public Squid(final EntityType<? extends Squid> type, final Level level) {
          super(type, level);
 -        // this.random.setSeed(this.getId()); // Paper - Share random for entities to make them more random
 +        if (!me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.SHARED_ENTITY_RANDOM) this.random.setSeed(this.getId()); // Paper - Share random for entities to make them more random

@@ -8,10 +8,10 @@ This patch is an adaptation of the Leaves patch (only real diference in Merchant
 It makes Paper PR #5047 toggleable, basically re-enabling the exploit.
 
 diff --git a/net/minecraft/server/level/ServerLevel.java b/net/minecraft/server/level/ServerLevel.java
-index a9fcc5cbcbe445dcb0ef14b5e2426ffb3efe005b..770d42acd0db44933573f04224522710347f8cc0 100644
+index 86906f3425669a5a8bae49c57fcb08a48f2ffe3e..916a58ba348de2f78dd4feb175e72e8800114916 100644
 --- a/net/minecraft/server/level/ServerLevel.java
 +++ b/net/minecraft/server/level/ServerLevel.java
-@@ -2847,6 +2847,7 @@ public class ServerLevel extends Level implements ServerEntityGetter, WorldGenLe
+@@ -2920,6 +2920,7 @@ public class ServerLevel extends Level implements WorldGenLevel, ServerEntityGet
              // Spigot start
              if (entity.getBukkitEntity() instanceof org.bukkit.inventory.InventoryHolder && (!(entity instanceof ServerPlayer) || entity.getRemovalReason() != Entity.RemovalReason.KILLED)) { // SPIGOT-6876: closeInventory clears death message
                  // Paper start - Fix merchant inventory not closing on entity removal
@@ -20,25 +20,25 @@ index a9fcc5cbcbe445dcb0ef14b5e2426ffb3efe005b..770d42acd0db44933573f04224522710
                      merchant.getTrader().closeInventory(org.bukkit.event.inventory.InventoryCloseEvent.Reason.UNLOADED);
                  }
 diff --git a/net/minecraft/server/players/PlayerList.java b/net/minecraft/server/players/PlayerList.java
-index c6aa7b4a9d05470a2f7659759fa4d3f2d89300fb..907d66772f18c09c42c965361ef9737919560adb 100644
+index 82748af2479b0f8f15e39d1ad1ccd2a0e583bcdd..faac130ee69c06724dfdd8f49d00b6b02e9e9b08 100644
 --- a/net/minecraft/server/players/PlayerList.java
 +++ b/net/minecraft/server/players/PlayerList.java
-@@ -473,6 +473,7 @@ public abstract class PlayerList {
+@@ -476,6 +476,7 @@ public abstract class PlayerList {
                  player.stopRiding();
-                 rootVehicle.getPassengersAndSelf().forEach(entity -> {
+                 vehicle.getPassengersAndSelf().forEach(e -> {
                      // Paper start - Fix villager boat exploit
 +                    if (me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.VILLAGER_VOID_TRADING_FIX) // Chlorophyll - Toggle villager void trading fix
-                     if (entity instanceof net.minecraft.world.entity.npc.villager.AbstractVillager villager) {
+                     if (e instanceof net.minecraft.world.entity.npc.villager.AbstractVillager villager) {
                          final net.minecraft.world.entity.player.Player human = villager.getTradingPlayer();
                          if (human != null) {
 diff --git a/net/minecraft/world/inventory/MerchantMenu.java b/net/minecraft/world/inventory/MerchantMenu.java
-index 6dfee62a46a5882df7f405e59d762647289d7866..75bb0c913938d7a6b49690631815d19ec079200a 100644
+index 1dd82dfa739957f00d51c8b987289a002815f622..4966284bbb35dd86fe326f904642fd959eff4eb5 100644
 --- a/net/minecraft/world/inventory/MerchantMenu.java
 +++ b/net/minecraft/world/inventory/MerchantMenu.java
 @@ -74,6 +74,7 @@ public class MerchantMenu extends AbstractContainerMenu {
  
      @Override
-     public boolean stillValid(Player player) {
+     public boolean stillValid(final Player player) {
 +        if (me.biquaternions.chlorophyll.ChlorophyllConfig.TOGGLES.PAPER.VILLAGER_VOID_TRADING_FIX) // Chlorophyll - Toggle villager void trading fix
          if (!checkReachable) return true; // Paper - checkReachable
          return this.trader.stillValid(player);
